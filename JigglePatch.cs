@@ -1,5 +1,6 @@
-﻿using HarmonyLib;
-using UnityEngine;
+﻿//Copyright 2023 (c) Floppydisk
+//GPL 3.0-only
+using HarmonyLib;
 
 namespace ReactorJiggle
 {
@@ -17,14 +18,8 @@ namespace ReactorJiggle
                 //get temperature (values generally between 0 and 1)
                 float temperature = __instance.MyShipInfo.MyStats.ReactorTempCurrent / __instance.MyShipInfo.MyStats.ReactorTempMax;
 
-                //use CoreInstability as a distance multiplier for the random orb movement
-                //100f to counteract to 0.01f in PLReactorInstance.
-                //*2 + 1 to make __state range from 1 to 3.
-                //-6 to reduce wobble at idle temp, 7 should be no wobble (not verified on all reactors).
-                //values above 100 are outside the reactor casing, values below 100 are inside the reactor casing.
-                //orb should be (just barely) contained if temperature is max and stability has not yet decreased.
-                //Clamp to 80 as otherwise ord is flying outside the reactor casing
-                //at 6 core still jiggles
+                //Some reactors require specific values to get maximum jiggle inside the reactor casing.
+                //Core should be just bearly contained at 100% heat.
                 switch (__instance.MyShipInfo.ShipTypeID)
                 {
                     case EShipType.E_ROLAND:
@@ -55,13 +50,17 @@ namespace ReactorJiggle
                         Jiggle = 0.7f;
                         break;
                 }
+                //use CoreInstability as a distance multiplier for the random orb movement
+                //100f to counteract to 0.01f in PLReactorInstance.
+                //*2 + 1 to make __state range from 1 to 3.
+                //-6 to reduce wobble at idle temp, 7 should be no wobble.
                 __instance.MyShipInfo.CoreInstability = (temperature * 100f - 6.5f) * Jiggle;
             }
         }
 
         static void Postfix(PLReactorInstance __instance, float __state)
         {
-            //restore saved value before returning from method
+            //restore saved value before returning from method to ensure that the correct value is sent to anything that requires the CoreInstability float
             __instance.MyShipInfo.CoreInstability = __state;
         }
     }
