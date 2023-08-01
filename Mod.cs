@@ -23,11 +23,12 @@ namespace ReactorJiggle
     public class Mod : PulsarMod
     {
         public override string License => "GNU GPL-3.0";
-        public override string Version => "0.1.1";
+        public override string Version => "0.1.2";
         public override string Author => "FloppyDisk&18107";
         public override string Name => "ReactorJiggle";
         public override string HarmonyIdentifier() => $"{Author}.{Name}";
         public override string ShortDescription => "Jiggles the reactor core with temp";
+        public override string ReadmeURL => "https://raw.githubusercontent.com/flpydsk/ReactorJiggle/master/README";
 
     }
 }

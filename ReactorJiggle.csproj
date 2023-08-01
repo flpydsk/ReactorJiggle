@@ -40,8 +40,9 @@
     <Reference Include="Assembly-CSharp">
       <HintPath>..\Managed\Assembly-CSharp.dll</HintPath>
     </Reference>
-    <Reference Include="PulsarModLoader">
-      <HintPath>..\PulsarModLoaderInstaller-0.11.0.24-8360532\PulsarModLoader.dll</HintPath>
+    <Reference Include="PulsarModLoader, Version=0.11.0.24, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\pulsar-mod-loader\PulsarModLoader\bin\Debug\PulsarModLoader.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

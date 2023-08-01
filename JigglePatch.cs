@@ -21,6 +21,8 @@ using HarmonyLib;
 namespace ReactorJiggle
 {
     [HarmonyPatch(typeof(PLReactorInstance), "Update")]
+    [HarmonyBefore(new string[] { "modders.hardmode" })]
+    [HarmonyPriority(300)]
     internal class ReactorInstance
     {
         public static float Jiggle;
@@ -28,10 +30,8 @@ namespace ReactorJiggle
         {
             if (__instance.MyShipInfo)
             {
-                //save CoreInstability value before any modifications (values generally between 0 and 1)
                 __state = __instance.MyShipInfo.CoreInstability;
 
-                //get temperature (values generally between 0 and 1)
                 float temperature = __instance.MyShipInfo.MyStats.ReactorTempCurrent / __instance.MyShipInfo.MyStats.ReactorTempMax;
 
                 //Some reactors require specific values to get maximum jiggle inside the reactor casing.
@@ -76,7 +76,6 @@ namespace ReactorJiggle
 
         static void Postfix(PLReactorInstance __instance, float __state)
         {
-            //restore saved value before returning from method to ensure that the correct value is sent to anything that requires the CoreInstability float
             __instance.MyShipInfo.CoreInstability = __state;
         }
     }
